@@ -8,6 +8,7 @@ const getListArea = (props)=> {
     const { focused, moveIn, nowPage, totalPage, list, handlerMouseEnter, handlerMouseLeave, handlerChangeTitle } = props
     let newList = list.toJS()
     let searchInfoItem = []
+    let spinIcon = null
     if(newList.length) {
         for (var i = (nowPage - 1) * 10; i < nowPage * 10; i++) {
             searchInfoItem.push(
@@ -25,12 +26,13 @@ const getListArea = (props)=> {
             >
                 <div  className='search-info-title'>
                     热门搜索
-                    <span className='change-title' onClick={() => {handlerChangeTitle(nowPage, totalPage)}}>换一批</span>
+                    <span className='change-title' onClick={() => {handlerChangeTitle(nowPage, totalPage, spinIcon)}}>
+                        <i ref={(icon) => {spinIcon = icon}} className="iconfont spin">&#xe851;</i>
+                        换一批
+                    </span>
                 </div>
                 <div className='search-info-list'>
-                    {
-                        searchInfoItem
-                    }
+                    {searchInfoItem}
                 </div>
             </div>
         )
@@ -68,7 +70,7 @@ class Header extends Component {
                                     onBlur={handlerInputBlur}
                                 />
                             </CSSTransition>
-                            <i className={focused ? 'focused iconfont' : 'iconfont'}>
+                            <i className={focused ? 'focused iconfont zoom' : 'iconfont zoom'}>
                                 &#xe614;
                             </i>
                             {getListArea(this.props)}
@@ -117,7 +119,14 @@ const mapDispathToProps = (dispatch) => {
             const moveLeave = actionCreators.moveLeave()
             dispatch(moveLeave)
         },
-        handlerChangeTitle(nowPage, totalPage) {
+        handlerChangeTitle(nowPage, totalPage, spin) {
+            let originAngle = spin.style.transform.replace(/[^0-9]/g, '')
+            if (originAngle) {
+                originAngle = parseInt(originAngle, 10)
+            } else {
+                originAngle = 0
+            }
+            spin.style.transform = 'rotate(' + (originAngle + 360) + 'deg)'
             let changeTitle
             if(nowPage < totalPage) {
                 nowPage += 1
