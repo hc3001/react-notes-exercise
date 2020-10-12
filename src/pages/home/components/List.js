@@ -1,35 +1,38 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { actionCreators } from '../store'
+import React, {PureComponent} from 'react'
+import {connect} from 'react-redux'
+import {actionCreators} from '../store'
+import {Link} from 'react-router-dom'
 
-class List extends Component {
-	
-	render() {
-	    const { list, page, getMoreList } = this.props
-		return (
-			<div>
+class List extends PureComponent {
+    
+    render() {
+        const {list, page, getMoreList} = this.props
+        return (
+            <div>
                 {
                     list.map((item) => {
                         return (
-                            <div key={item.id} className='list-item'>
-                                <img alt='' className='pic' src={item.imgUrl} />
-                                <div className='list-info'>
-                                    <h3 className='title'>{item.title}</h3>
-                                    <p className='desc'>{item.desc}</p>
+                            <Link key={item.id} to='/detail'>
+                                <div className='list-item'>
+                                    <img alt='' className='pic' src={item.imgUrl}/>
+                                    <div className='list-info'>
+                                        <h3 className='title'>{item.title}</h3>
+                                        <p className='desc'>{item.desc}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     })
                 }
-                <div className='load-more' onClick={()=> getMoreList(page)}>加载更多</div>
+                <div className='load-more' onClick={() => getMoreList(page)}>加载更多</div>
             </div>
-		)
-	}
+        )
+    }
 }
 
 const mapState = (state) => ({
     list: state.getIn(['home', 'articleList']).toJS(),
-	page: state.getIn(['home', 'articlePage'])
+    page: state.getIn(['home', 'articlePage'])
 })
 
 const mapTodispatch = (dispatch) => ({

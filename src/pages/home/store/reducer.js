@@ -6,6 +6,7 @@ const defaultState = fromJS({
     articleList: [],
     recommendList: [],
     articlePage: 1,
+    showScroll: false,
 })
 
 export default (state = defaultState, action) => {
@@ -20,6 +21,11 @@ export default (state = defaultState, action) => {
 	    return state.merge({
             articleList: state.get('articleList').concat(action.list),
             articlePage: action.nextPage
+        })
+    }
+    if(action.type === constants.TOGGLE_TOP_SHOW) {
+	    return state.merge({
+            showScroll: action.showScroll
         })
     }
 	return state
