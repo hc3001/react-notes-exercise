@@ -1,7 +1,9 @@
-import React, {Component, Fragment} from 'react'
-import {CSSTransition} from 'react-transition-group'
-import {connect} from 'react-redux'
-import {actionCreators} from "./store";
+import React, { Component, Fragment } from 'react'
+import { CSSTransition } from 'react-transition-group'
+import { connect } from 'react-redux'
+import { actionCreators } from "./store"
+import { actionCreators as loginActionCreators } from '../../pages/login/store'
+import { Link } from 'react-router-dom'
 import '../../style/header.scss'
 
 const getListArea = (props)=> {
@@ -44,7 +46,7 @@ const getListArea = (props)=> {
 class Header extends Component {
     
     render() {
-        const { focused, handlerInputFocus, handlerInputBlur } = this.props
+        const { focused, handlerInputFocus, handlerInputBlur, login, handlerLogout } = this.props
         return (
             <Fragment>
                 <div className={'header-wrapper'}>
@@ -52,7 +54,13 @@ class Header extends Component {
                     <div className='header-nav'>
                         <div className='left active'>首页</div>
                         <div className='left'>下载App</div>
-                        <div className='right'>登陆</div>
+                        {
+                            login ?
+                                <div className='right' onClick={handlerLogout}>退出</div> :
+                                <Link to='/login'>
+                                    <div className='right'>登陆</div>
+                                </Link>
+                        }
                         <div className='right'>
                             <i className="iconfont">&#xe636;</i>
                         </div>
@@ -97,6 +105,7 @@ const mapStateToProps = (state) => {
         moveIn: state.getIn(['header', 'moveIn']),
         nowPage: state.getIn(['header', 'nowPage']),
         totalPage: state.getIn(['header', 'totalPage']),
+        login: state.getIn(['login', 'login'])
     }
 }
 const mapDispathToProps = (dispatch) => {
@@ -135,6 +144,10 @@ const mapDispathToProps = (dispatch) => {
                 changeTitle = actionCreators.changeTitle(1)
             }
             dispatch(changeTitle)
+        },
+        handlerLogout() {
+            const moveLeave = loginActionCreators.logout()
+            dispatch(moveLeave)
         }
     }
 }

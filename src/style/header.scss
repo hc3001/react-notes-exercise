@@ -3,7 +3,7 @@
     position: relative;
     height: 56px;
     border-bottom: 1px solid #f0f0f0;
-    a {
+    >a {
         position: absolute;
         top: 0;
         left: 0;
@@ -24,16 +24,22 @@
             padding: 0 15px;
             font-size: 17px;
             color: #333;
-            &.left {
-                float: left;
-            }
-            &.right {
-                float: right;
-                color: #969696;
-            }
-            &.active {
-                color: #ea6f5a;
-            }
+        }
+        > a {
+            line-height: 56px;
+            padding: 0 15px;
+            font-size: 17px;
+            color: #333;
+        }
+        .left {
+            float: left;
+        }
+        .right {
+            float: right;
+            color: #969696;
+        }
+        .active {
+            color: #ea6f5a;
         }
     }
     .search-wrapper {
