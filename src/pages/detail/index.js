@@ -7,6 +7,7 @@ import '../../style/detail.scss'
 class Detail extends PureComponent {
     
     componentDidMount() {
+        console.log('this.props', this.props)
         let id = this.props.match.params.id
         this.props.getDetailList(id)
     }
